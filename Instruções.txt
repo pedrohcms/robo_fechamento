@@ -1,0 +1,52 @@
+﻿AJUSTES DO FECHAMENTO CONTÁBIL
+==============================
+
+01048C1202010011000120201001100R.0139R.02.0003        S001 001/0012018070110499001/07/2018Ativação de Contrato de Venda')
+
+01002 D 1102070003 000000000600000 R.0322E.01.1814        -S001 001/001 20170601 098234 31/08/2017Ativação da Taxa de Cessão')
+
+ex:
+&SdtTexto.Add('01147-C-1102010994-000000000786108-R.0246R.03.2209        -S001 001/001-20180402-103689-29/06/2018-FECHAMENTO DIÁRIO (PARCELA)                       ')	
+&SdtTexto.Add('01147C1102010994000000000786108R.0246R.03.2209        S001 001/0012018040210368929/06/2018FECHAMENTO DIÁRIO (PARCELA)                       ')	
+01147C1102010994000000000786108R.0246R.03.2209        S001 001/0012018040210368929/06/2018FECHAMENTO DIÁRIO (PARCELA)                       
+
+===========================================================================================================================================================================
+COMO A STRING DEVE FICAR DEPOIS DE MONTADA:
+&SdtTexto.Add('01147C1102010994000000000786108R.0246R.03.2209        S001 001/0012018040210368929/06/2018FECHAMENTO DIÁRIO (PARCELA)                       ')
+Do 'Processar' 
+==========================================================================================================================================================================
+
+Ordenar os registros da Planilha por PELA PRIMEIRA COLUNA EMPRESA
+
+Posição da		Quantidade de	Observações
+String que 		casas que 
+deve ocupar 	deve ocupar
+001 a 005 - 	05 				- Empresa (Colocar 0 a esquerda)
+006 a 006 - 	01 				- D/C - Débito ou Crédito
+007 a 016 - 	10 				- Conta Contabil
+017 a 031 - 	15 				- Montante (valor) (Preencher com 0 a esquerda ate preencher as casas e retirar a virgula)
+032 a 054 - 	23 				- PEP (Espaço a Direita)
+055 a 066 - 	12 				- Chav. Ref. 1 (Espaço a Direita)
+067 a 074 - 	08 				- Data Documento AAAAMMDD
+075 A 080 - 	06 				- Contrato (Zero a Esquerda se precisar para preencher a qtd de casa)
+081 a 090 - 	10 				- Data do Lançamento DD/MM/AAAA
+091 a 140 - 	   				- Histórico (Denominação)
+
+Quebrar por Interface e Empresa e adicionar: Do 'Processar'
+
+Adicionar no começo da String: &SdtTexto.Add('
+e no final dela deve conter: ')
+
+Depois do Texto Formatado:
+	Procurar a ultima procedure que começa com o nome SX00 e colar depois de &SdtTexto.Clear() // 1 e antes de &SdtTexto.Clear() // 2
+
+	Commitar a procedure em DEV com o nome da atividade com _1 e _2 referente aos meses
+
+	Fazer o Bring Changes em PPRD e dar Build with this only nas procedures
+
+	O .exe e o exe.config devem ser gerados do ambiente da TECNISA, de PPRD
+
+	copiar o arquivo .exe e o exe.config para a pasta padrão
+
+
+
