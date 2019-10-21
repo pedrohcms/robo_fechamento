@@ -47,17 +47,17 @@ while op == 1:
             txt = open('./resultados/'+sheet_name+'_'+str(date.today().year)+'.txt', 'w')
 
             #Iniciando os DataFrames
-            interface = pd.DataFrame(document, columns = ['Interface'])
-            empr = pd.DataFrame(document, columns = ['Empr'])
-            cl = pd.DataFrame(document, columns = ['CL'])
-            conta = pd.DataFrame(document, columns = ['Conta'])
-            montante = pd.DataFrame(document, columns = ['Valor do Montante'])
-            pep = pd.DataFrame(document, columns = ['Elemento PEP'])
-            chave_ref = pd.DataFrame(document, columns = ['Chv.ref.1'])
-            data_doc = pd.DataFrame(document, columns = ['Data do Doc'])
-            contrato = pd.DataFrame(document, columns = ['Contrato'])
-            data_lancamento = pd.DataFrame(document, columns = ['Data Lançamento'])
-            historico = pd.DataFrame(document, columns = ['Denominação'])
+            interface = document['Interface'].values.tolist()
+            empr = document['Empr'].values.tolist()
+            cl = document['CL'].values.tolist()
+            conta = document['Conta'].values.tolist()
+            montante = document['Valor do Montante'].values.tolist()
+            pep = document['Elemento PEP'].values.tolist()
+            chave_ref = document['Chv.ref.1'].values.tolist()
+            data_doc = document['Data do Doc'].values.tolist()
+            contrato = document['Contrato'].values.tolist()
+            data_lancamento = document['Data Lançamento'].values.tolist()
+            historico = document['Denominação'].values.tolist()
 
             init_time = time.perf_counter()
 
@@ -65,8 +65,8 @@ while op == 1:
                 string_linha = '&SdtTexto.Add(\''
                 
                 #empresa
-                string = empr.iloc[linha][0]
-
+                string = empr[linha]
+                
                 if len(string) > 5 or len(string) < 3:
                     print('O valor do campo Empresa é inválido')
                     break
@@ -76,7 +76,7 @@ while op == 1:
                 string_linha += string
                 
                 #Débito ou crédito(CL)
-                string = cl.iloc[linha][0]
+                string = cl[linha]
 
                 if (string == 'C' or 'D') and len(string) == 1:
                     string_linha += string
@@ -85,7 +85,7 @@ while op == 1:
                     break
 
                 #Conta contabil
-                string = conta.iloc[linha][0]
+                string = conta[linha]
 
                 if len(string) != 10:
                     print('O valor do campo Conta contábil é inválido')
@@ -94,7 +94,7 @@ while op == 1:
                 string_linha += string
 
                 #Montante
-                string = montante.iloc[linha][0]
+                string = montante[linha]
 
                 if len(string) > 15:
                     print('O valor do campo montante é inválido')
@@ -112,7 +112,7 @@ while op == 1:
                 string_linha += string
                 
                 #PEP
-                string = pep.iloc[linha][0]
+                string = pep[linha]
                 
                 if len(string) == 15:
                     string = string + ' ' * (23 - len(string)) 
@@ -123,7 +123,7 @@ while op == 1:
                     break
                 
                 #Chav. Ref. 1
-                string = chave_ref.iloc[linha][0]
+                string = chave_ref[linha]
                 
                 if string == 'nan':
                     string = ' ' * (12) 
@@ -136,7 +136,7 @@ while op == 1:
                 string_linha += string
 
                 #Data Documento
-                string = data_doc.iloc[linha][0]
+                string = data_doc[linha]
 
                 if len(string) != 10:
                     print('O valor do campo data é inválido')
@@ -148,7 +148,7 @@ while op == 1:
                 string_linha += string
 
                 #Contrato
-                string = contrato.iloc[linha][0]
+                string = contrato[linha]
                 
                 if len(string) < 5 or len(string) > 6:
                     print('O valor do campo contrato é inválido')
@@ -161,7 +161,7 @@ while op == 1:
                 string_linha += string
 
                 #Data do lançamento
-                string = data_lancamento.iloc[linha][0]
+                string = data_lancamento[linha]
 
                 if len(string) != 10:
                     print('O valor do campo data é inválido')
@@ -173,7 +173,7 @@ while op == 1:
                 string_linha += string
                 
                 #Histórico(Denominação)
-                string = historico.iloc[linha][0]
+                string = historico[linha]
 
                 if len(string) >= 50:
                     string = string[0:50]
@@ -190,8 +190,8 @@ while op == 1:
                 txt.write('\n')
 
                 if linha < document.shape[0]-1: 
-                    interface_atual = str(interface.iloc[linha][0])
-                    interface_prox = str(interface.iloc[linha+1][0])
+                    interface_atual = interface[linha][0]
+                    interface_prox = interface[linha+1][0]
 
                     if interface_atual != interface_prox:
                         txt.write('Do \'Processar\'')
